@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/icons/menu">
+        <file>ico/system-log-out.png</file>
+        <file>ico/document-new.png</file>
+        <file>ico/document-open.png</file>
+        <file>ico/document-save.png</file>
+        <file>ico/go-first.png</file>
+        <file>ico/go-last.png</file>
+        <file>ico/go-next.png</file>
+        <file>ico/go-previous.png</file>
+        <file>ico/list-add.png</file>
+        <file>ico/list-remove.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,47 @@
+//=================================================
+// Plik
+//=================================================
+#include <iostream>
+#include <string>
+
+/** @file filename.ext
+ * @brief A brief description of filename.ext.
+ *
+ * A more extensive description of filename.ext.
+ */
+
+//=================================================
+// Klasa
+//=================================================
+/** @brief A brief description of MyClass.
+ *
+ * A more extensive description of MyClass.
+ */
+class MyClass {
+
+//=================================================
+// Metoda
+//=================================================
+/** @brief A brief description of myProcedure().
+ *
+ * A more extensive description of myProcedure().
+ * @param aParameter A brief description of aParameter.
+ * @return A brief description of what myProcedure() returns.
+ */
+string myProcedure(string aParameter);
+
+//=================================================
+// Zmienna
+//=================================================
+/** @brief A brief description of myVariable.
+ *
+ * A more extensive description of myVariable.
+ */
+string myVariable;
+
+
+
+=================
+Bibliografia:
+=================
+1) http://wilma.vub.ac.be/~se5-0203/tutorials/Doxygen.html
