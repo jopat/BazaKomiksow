@@ -157,7 +157,7 @@ void SqLiteMaper::ReadSqlFromFile(const string &fileName)
             size_t found = lineTmp.find(";");
             if (found != string::npos)
             {
-                char[1024] tmp;
+                char tmp[1024];
                 file.seekg(pos, ios::beg);
                 int p = pos + found;
                 file.read(tmp, p);
