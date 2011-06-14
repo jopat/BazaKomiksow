@@ -14,13 +14,11 @@ TEMPLATE    = app
 SOURCES     += main.cpp                 \
                 mainwindow.cpp 		\
                 ConfigManager.cpp 	\
-                toolsstring.cpp 	\
                 toolstime.cpp \
                 SqLiteMaper.cpp
 
 HEADERS     += mainwindow.h 		\
                 ConfigManager.h 	\
-                toolsstring.h 		\
                 toolstime.h \
                 SqLiteMaper.h
 

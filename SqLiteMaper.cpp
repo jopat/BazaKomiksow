@@ -12,12 +12,14 @@
 
 using namespace std;
 
+// KONSTRUKTOR
 //=============================================================
 SqLiteMaper::SqLiteMaper(const string& dbName)
 {
     this -> dbName = dbName;
 }
 
+// DESTRUKTOR
 //=============================================================
 SqLiteMaper::~SqLiteMaper()
 {
@@ -136,9 +138,46 @@ bool SqLiteMaper::CheckDatabase()
 }
 
 //=============================================================
-void SqLiteMaper::ReadSqlFromFile()
+void SqLiteMaper::ReadSqlFromFile(const string &fileName)
 {
+    // dzielimy plik na pojedyncze zapytania sql
+    // zapytania s¹ oddzielone znakiem ';'
 
+    //1. otwieramy plik
+    fstream file;
+    file.open(fileName.c_str());
+
+    //2. je¿eli plik jest ok, kontynuuj
+    if(file.good())
+    {
+        string lineTmp, sqlTmp;
+        unsigned pos = 0;
+        while (getline(file, lineTmp))
+        {
+            size_t found = lineTmp.find(";");
+            if (found != string::npos)
+            {
+                char[1024] tmp;
+                file.seekg(pos, ios::beg);
+                int p = pos + found;
+                file.read(tmp, p);
+                sqlTmp += tmp;
+
+
+
+                pos = found + 1;
+                sqlTmp.clear();
+            }
+            else
+            {
+                sqlTmp += lineTmp;
+            }
+        }
+    }
+    else
+    {
+
+    }
 }
 
 

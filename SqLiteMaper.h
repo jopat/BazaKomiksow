@@ -114,7 +114,13 @@ private:
      */
     vector<string> sqlList;
 
-    void ReadSqlFromFile();
+    /** @brief A brief description of myProcedure().
+     *
+     * A more extensive description of myProcedure().
+     * @param aParameter A brief description of aParameter.
+     * @return A brief description of what myProcedure() returns.
+     */
+    void ReadSqlFromFile(const string &fileName);
 };
 
 #endif // SQLITEMAPER_H

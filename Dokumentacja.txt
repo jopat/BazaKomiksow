@@ -1,0 +1,35 @@
+Global setup:
+
+ Download and install Git
+  git config --global user.name "Jakub Opatowski"
+  git config --global user.email jakub.opatowski@gmial.com
+
+
+Next steps:
+
+  mkdir BazaKomiksow
+  cd BazaKomiksow
+  git init
+  touch README
+  git add README
+  git commit -m 'first commit'
+  git remote add origin git@github.com:jopat/BazaKomiksow.git
+  git push -u origin master
+
+
+Existing Git Repo?
+
+  cd existing_git_repo
+  git remote add origin git@github.com:jopat/BazaKomiksow.git
+  git push -u origin master
+
+
+Importing a Subversion Repo?
+
+  Click here
+
+
+When you're done:
+
+  Continue
+
