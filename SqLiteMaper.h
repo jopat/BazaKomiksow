@@ -21,6 +21,8 @@ class SqLiteMaper
 {
 public:
 
+    vector<string> sqlList;
+
     /** @brief A brief description of myVariable.
      *
      * A more extensive description of myVariable.
@@ -112,7 +114,7 @@ private:
      *
      * A more extensive description of myVariable.
      */
-    vector<string> sqlList;
+    //vector<string> sqlList;
 
     /** @brief A brief description of myProcedure().
      *
@@ -120,7 +122,7 @@ private:
      * @param aParameter A brief description of aParameter.
      * @return A brief description of what myProcedure() returns.
      */
-    void ReadSqlFromFile(const string &fileName);
+    int ReadSqlFromFile(const string &fileName);
 };
 
 #endif // SQLITEMAPER_H

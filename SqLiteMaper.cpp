@@ -23,7 +23,8 @@ SqLiteMaper::SqLiteMaper(const string& dbName)
 //=============================================================
 SqLiteMaper::~SqLiteMaper()
 {
-    db -> close();
+//    if (db ->isOpen())
+//        db -> close();
     if (db)
         delete db;
 }
@@ -31,24 +32,14 @@ SqLiteMaper::~SqLiteMaper()
 //=============================================================
 int SqLiteMaper::CreateDatabase(const string &fileName)
 {
+    // zaczytanie pliku ze skryptem buduj¹cym bazê
     ifstream file;
     file.open(fileName.c_str());
     string createQuery;
 
     if(file.good())
     {
-        string tmp;
-        while(!file.eof())
-        {
-            getline(file, tmp);
-            createQuery += tmp;
-        }
-
-        if(db -> isOpen())
-        {
-            lastError = "Baza danych ju¿ istnieje.";
-        }
-        else
+        if (ReadSqlFromFile(fileName))
         {
             fstream dbFileContainer;
             dbFileContainer.open(dbName.c_str(), ios::out | ios::trunc);
@@ -60,7 +51,14 @@ int SqLiteMaper::CreateDatabase(const string &fileName)
             if (dbFile.open())
             {
                 QSqlQuery query(dbFile);
-                query.exec(QString::fromStdString(createQuery));
+
+                for (vector<string>::iterator it = sqlList.begin(); it != sqlList.end(); it++)
+                {
+                    query.exec(QString::fromStdString(*it));
+                }
+
+                //query.exec(QString::fromStdString(it[0]));
+
                 QSqlError error = query.lastError();
                 lastError = error.text().toStdString();
                 dbFile.close();
@@ -114,31 +112,43 @@ int SqLiteMaper::Disconnect()
 //=============================================================
 bool SqLiteMaper::CheckDatabase()
 {
-    struct stat stFileInfo;
-    int intStat;
+    fstream file;
+    file.open(dbName.c_str(), ios::out | ios::binary);
 
-    // Attempt to get the file attributes
-    intStat = stat(dbName.c_str(), &stFileInfo);
-    if(intStat == 0)
+    if (!file.good())
     {
-    // We were able to get the file attributes
-    // so the file obviously exists.
-        return true;
-    }
-    else
-    {
-    // We were not able to get the file attributes.
-    // This may mean that we don't have permission to
-    // access the folder which contains this file. If you
-    // need to do that level of checking, lookup the
-    // return values of stat which will give you
-    // more details on why stat failed.
         return false;
     }
+
+    file.close();
+    return true;
+
+
+//    struct stat stFileInfo;
+//    int intStat;
+
+//    // Attempt to get the file attributes
+//    intStat = stat(dbName.c_str(), &stFileInfo);
+//    if(intStat == 0)
+//    {
+//    // We were able to get the file attributes
+//    // so the file obviously exists.
+//        return true;
+//    }
+//    else
+//    {
+//    // We were not able to get the file attributes.
+//    // This may mean that we don't have permission to
+//    // access the folder which contains this file. If you
+//    // need to do that level of checking, lookup the
+//    // return values of stat which will give you
+//    // more details on why stat failed.
+//        return false;
+//    }
 }
 
 //=============================================================
-void SqLiteMaper::ReadSqlFromFile(const string &fileName)
+int SqLiteMaper::ReadSqlFromFile(const string &fileName)
 {
     // dzielimy plik na pojedyncze zapytania sql
     // zapytania s¹ oddzielone znakiem ';'
@@ -151,32 +161,32 @@ void SqLiteMaper::ReadSqlFromFile(const string &fileName)
     if(file.good())
     {
         string lineTmp, sqlTmp;
-        unsigned pos = 0;
+        //2.1. zaczytaj plik linia po linii
         while (getline(file, lineTmp))
         {
-            size_t found = lineTmp.find(";");
-            if (found != string::npos)
+            //2.2. poszukaj wyst¹pienia w linni znaku koñca zapytania
+            size_t semicolonPosition = lineTmp.find(";");
+            //2.3. je¿eli znajjdziesz taki znak
+            if (semicolonPosition != string::npos)
             {
-                char tmp[1024];
-                file.seekg(pos, ios::beg);
-                int p = pos + found;
-                file.read(tmp, p);
+                char tmp[lineTmp.length()];
+                lineTmp.copy(tmp, semicolonPosition + 1);
                 sqlTmp += tmp;
-
-
-
-                pos = found + 1;
+                sqlList.push_back(sqlTmp);
                 sqlTmp.clear();
             }
+            //2.4. je¿eli nie znajdziesz takiego znaku
             else
             {
                 sqlTmp += lineTmp;
             }
         }
+        return 1;
     }
+    //3. plik nie zosta³ odczytany poprawnie
     else
     {
-
+        return 0;
     }
 }
 

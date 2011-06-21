@@ -35,24 +35,25 @@ MainWindow::MainWindow(QWidget *parent) :
         sqLiteMaper = new SqLiteMaper(config -> configDictionary["DbName"]);
         if (sqLiteMaper -> CheckDatabase())
         {
-
+            // baza danych istnieje i mo¿na nawi¹zaæ po³¹czenie
+            if (sqLiteMaper -> Connect())
+            {
+                ui -> textEdit -> append("Nawi¹za³em po³¹czenie !");
+            }
         }
         else
         {
-
-        }
-
-        // baza danych istnieje
-        if (sqLiteMaper -> Connect())
-        {
-            ui -> textEdit -> append("Nawi¹za³em po³¹czenie !");
-        }
-        // baza danych nie istnieje
-        else
-        {
+            // baza danych nie istnieje
             // utwórz now¹ bazê danych
             ui -> textEdit -> append(QString::fromStdString(sqLiteMaper -> lastError));
             sqLiteMaper -> CreateDatabase("create.sql");
+
+            // wyœwietl treœæ zapytañ
+            for(vector<string>::iterator it = sqLiteMaper->sqlList.begin(); it != sqLiteMaper->sqlList.end(); it++)
+            {
+                ui -> textEdit -> append(QString::fromStdString(*it));
+            }
+
         }
     }
     // konfiguracja nie istnieje
