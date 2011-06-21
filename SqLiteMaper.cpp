@@ -23,10 +23,12 @@ SqLiteMaper::SqLiteMaper(const string& dbName)
 //=============================================================
 SqLiteMaper::~SqLiteMaper()
 {
-//    if (db ->isOpen())
-//        db -> close();
     if (db)
+    {
+        if (db -> isOpen())
+            db -> close();
         delete db;
+    }
 }
 
 //=============================================================
@@ -84,10 +86,13 @@ int SqLiteMaper::ConnectionStatus()
 //=============================================================
 int SqLiteMaper::Connect()
 {
-    QSqlDatabase dbTmp = QSqlDatabase::addDatabase("QSQLITE");
-    dbTmp.setDatabaseName(QString::fromStdString(dbName));
+    if (!db)
+    {
+        QSqlDatabase dbTmp = QSqlDatabase::addDatabase("QSQLITE");
+        dbTmp.setDatabaseName(QString::fromStdString(dbName));
 
-    db = new QSqlDatabase(dbTmp);
+        db = new QSqlDatabase(dbTmp);
+    }
 
     if (!db -> open())
     {
@@ -112,39 +117,8 @@ int SqLiteMaper::Disconnect()
 //=============================================================
 bool SqLiteMaper::CheckDatabase()
 {
-    fstream file;
-    file.open(dbName.c_str(), ios::out | ios::binary);
-
-    if (!file.good())
-    {
-        return false;
-    }
-
-    file.close();
-    return true;
-
-
-//    struct stat stFileInfo;
-//    int intStat;
-
-//    // Attempt to get the file attributes
-//    intStat = stat(dbName.c_str(), &stFileInfo);
-//    if(intStat == 0)
-//    {
-//    // We were able to get the file attributes
-//    // so the file obviously exists.
-//        return true;
-//    }
-//    else
-//    {
-//    // We were not able to get the file attributes.
-//    // This may mean that we don't have permission to
-//    // access the folder which contains this file. If you
-//    // need to do that level of checking, lookup the
-//    // return values of stat which will give you
-//    // more details on why stat failed.
-//        return false;
-//    }
+    ifstream ifile(dbName.c_str());
+    return ifile;
 }
 
 //=============================================================
