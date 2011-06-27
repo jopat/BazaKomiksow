@@ -16,13 +16,15 @@ SOURCES     += main.cpp                 \
                 ConfigManager.cpp 	\
                 toolstime.cpp \
                 SqLiteMaper.cpp \
-    StringTools.cpp
+    StringTools.cpp \
+    Log.cpp
 
 HEADERS     += mainwindow.h 		\
                 ConfigManager.h 	\
                 toolstime.h \
                 SqLiteMaper.h \
-    StringTools.h
+    StringTools.h \
+    Log.h
 
 FORMS       += mainwindow.ui 		\
                 createdatabase.ui

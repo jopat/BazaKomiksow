@@ -17,16 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui -> setupUi(this);
 
-    QSqlDatabase dbTmp = QSqlDatabase::addDatabase("QSQLITE");
-    dbTmp.setDatabaseName(QString::fromStdString("comics.db"));
-    if (dbTmp.open())
-    {
-        ui -> textEdit -> append("Nie mo¿na nawi¹zaæ po³¹czenia");
-        dbTmp.close();
-    }
-    else
-        ui -> textEdit -> append("Nie mo¿na nawi¹zaæ po³¹czenia");
-
     //zaczytanie konfiguracji
     string fileName = "config.conf";
     config = new ConfigManager(fileName);
@@ -36,9 +26,12 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         // SprawdŸ czy istnieje baza
         sqLiteMaper = new SqLiteMaper(config -> configDictionary["DbName"]);
+
+        ui -> textEdit -> append(QString::fromStdString(sqLiteMaper -> lastError));
+
         if (sqLiteMaper -> CheckDatabase())
         {
-            if(sqLiteMaper->Connect())
+            if(sqLiteMaper -> Connect())
             {
                 // baza danych istnieje i mo¿na nawi¹zaæ po³¹czenie
                 ui -> textEdit -> append("Nawi¹za³em po³¹czenie !");

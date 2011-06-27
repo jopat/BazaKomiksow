@@ -17,6 +17,18 @@ using namespace std;
 SqLiteMaper::SqLiteMaper(const string& dbName)
 {
     this -> dbName = dbName;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(QString::fromStdString(dbName));
+
+    if (db.open())
+    {
+        lastError = dbName;
+    }
+    else
+    {
+        lastError = dbName;
+    }
 }
 
 // DESTRUKTOR
