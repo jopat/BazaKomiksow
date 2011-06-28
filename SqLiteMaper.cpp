@@ -9,6 +9,8 @@
 #include <fstream>
 #include "SqLiteMaper.h"
 #include <sys/stat.h>
+#include "Log.h"
+
 
 using namespace std;
 
@@ -16,19 +18,17 @@ using namespace std;
 //=============================================================
 SqLiteMaper::SqLiteMaper(const string& dbName)
 {
+    FILELog::ReportingLevel() = FILELog::FromString("DEBUG1");
+
+    FILE_LOG(logDEBUG) << "SqLiteMaper::SqLiteMaper START";
+    FILE_LOG(logDEBUG) << "param dbName: " << dbName;
+
     this -> dbName = dbName;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(QString::fromStdString(dbName));
 
-    if (db.open())
-    {
-        lastError = dbName;
-    }
-    else
-    {
-        lastError = dbName;
-    }
+    FILE_LOG(logDEBUG) << "SqLiteMaper::SqLiteMaper END";
 }
 
 // DESTRUKTOR
