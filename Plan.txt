@@ -1,0 +1,5 @@
+Plan projektu BazaKomiksów
+==========================
+
+ToDo:
+- Sprawnie dzia³aj¹cy mechanizm logowania.

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <stdio.h>
+#include "boost\date_time\gregorian\gregorian.hpp"
 
 inline std::string NowTime();
 
@@ -19,6 +20,11 @@ enum TLogLevel
     logDEBUG4
 };
 
+/** @brief Klasa implementuje mechanizm logowania.
+ *
+ * Klasa implementuj¹ca mechanizm logowania.
+ * Wykorzystywana jest w tym celu standardowy strumieñ danych.
+ */
 template <typename T>
 class Log
 {
@@ -95,6 +101,12 @@ TLogLevel Log<T>::FromString(const std::string& level)
     return logINFO;
 }
 
+
+/** @brief Klasa implementuje mechanizm przekierowania strumienia standardowego do pliku..
+ *
+ * Klasa pozwala na przekierowanie standardowego
+ * strumienia danych do pliku.
+ */
 class Output2FILE
 {
 public:
@@ -105,13 +117,13 @@ public:
 inline FILE*& Output2FILE::Stream()
 {
     static FILE* pStream = stderr;
-    //static FILE* pStream = freopen ("myfile.txt","w",stdout);
     return pStream;
 }
 
 inline void Output2FILE::Output(const std::string& msg)
 {
-    FILE* pStream = Stream();
+    //FILE* pStream = Stream();
+    FILE* pStream = fopen ("myfile.txt" , "w");
     if (!pStream)
         return;
     fprintf(pStream, "%s", msg.c_str());
@@ -179,5 +191,6 @@ inline std::string NowTime()
 }
 
 #endif //WIN32
+
 
 #endif // LOG_H

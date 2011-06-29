@@ -11,7 +11,6 @@
 #include <sys/stat.h>
 #include "Log.h"
 
-
 using namespace std;
 
 // KONSTRUKTOR
@@ -19,16 +18,14 @@ using namespace std;
 SqLiteMaper::SqLiteMaper(const string& dbName)
 {
     FILELog::ReportingLevel() = FILELog::FromString("DEBUG1");
-
-    FILE_LOG(logDEBUG) << "SqLiteMaper::SqLiteMaper START";
-    FILE_LOG(logDEBUG) << "param dbName: " << dbName;
+    FILE_LOG(logDEBUG) << "START";
 
     this -> dbName = dbName;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(QString::fromStdString(dbName));
 
-    FILE_LOG(logDEBUG) << "SqLiteMaper::SqLiteMaper END";
+    FILE_LOG(logDEBUG) << "STOP";
 }
 
 // DESTRUKTOR
