@@ -1,30 +1,24 @@
+/** @file ConfigManager.cpp
+ *  @brief Plik z implementacj¹ klasy ConfigManager.
+ *
+ * ================================================
+ *  @author  Jakub Opatowski
+ *  @version 0.1
+ *  @date    30 VI 2011
+ * ================================================
+ */
+
 #include "ConfigManager.h"
+#include "StringTools.h"
+
 #include <iostream>
 #include <fstream>
 using namespace std;
-
-/** @file ConfigManager.cpp
- * @brief A brief description of readconfig.cpp.
- *
- * A more extensive description of readconfig.cpp.
- */
 
 //=============================================================
 ConfigManager::ConfigManager(const string& configFileName)
 {
     this -> configFileName = configFileName;
-}
-
-//=============================================================
-string ConfigManager::Trim(const string& s)
-{
-    string tmp = s;
-
-    static const char whitespace[] = " \n\t\v\r\f";
-    tmp.erase( 0, tmp.find_first_not_of(whitespace) );
-    tmp.erase( tmp.find_last_not_of(whitespace) + 1U );
-
-    return s;
 }
 
 //=============================================================
@@ -43,7 +37,7 @@ int ConfigManager::ReadConfigFile()
     if (!config)
     {
         lastError = "B³¹d odczytu pliku konfiguracyjnego.";
-        return FILE_ER;
+        return ACTION_ER;
     }
 
     //2
@@ -56,18 +50,18 @@ int ConfigManager::ReadConfigFile()
         if (found != string::npos)
         {
             //2.2
-            key = Trim(tmp.substr(0, found));
+            key = StringTools::Trim(tmp.substr(0, found));
             if (configDictionary.find(key) == configDictionary.end())
             {
                 //2.3
                 value = tmp.substr(found + 1, string::npos);
-                configDictionary[key] = Trim(value);
+                configDictionary[key] = StringTools::Trim(value);
             }
         }
     }
 
     config.close();
-    return FILE_OK;
+    return ACTION_OK;
 }
 
 //=============================================================
@@ -80,7 +74,7 @@ int ConfigManager::SaveConfigFile(const string &key)
     if (!config)
     {
         lastError = "B³¹d odczytu pliku konfiguracyjnego.";
-        return FILE_ER;
+        return ACTION_ER;
     }
 
     string tmp;
@@ -102,7 +96,7 @@ int ConfigManager::SaveConfigFile(const string &key)
     }
 
     config.close();
-    return FILE_OK;
+    return ACTION_OK;
 }
 
 //=============================================================
@@ -112,7 +106,7 @@ int ConfigManager::SaveConfigFile()
     if (!config)
     {
         lastError = "B³¹d odczytu pliku konfiguracyjnego.";
-        return FILE_ER;
+        return ACTION_ER;
     }
 
     iterator it = configDictionary.begin();
@@ -122,7 +116,7 @@ int ConfigManager::SaveConfigFile()
         config << it -> first << " = " << it -> second << endl;
     }
 
-    return FILE_OK;
+    return ACTION_OK;
 }
 
 //=============================================================

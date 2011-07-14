@@ -1,8 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ui_createdatabase.h"
+#include "ui_firststartwizard.h"
 #include "SqLiteMaper.h"
+
 #include <QMessageBox>
+#include <QWizard>
+
 
 /** @file mainwindow.cpp
  * @brief GUI main window source file.
@@ -22,12 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
     config = new ConfigManager(fileName);
 
     //je¿eli konfiguracja istnieje
-    if (config -> ReadConfigFile() == ConfigManager::FILE_OK)
+    if (config -> ReadConfigFile() == ConfigManager::ACTION_OK)
     {
         // SprawdŸ czy istnieje baza
         sqLiteMaper = new SqLiteMaper(config -> configDictionary["DbName"]);
-
-        ui -> textEdit -> append(QString::fromStdString(sqLiteMaper -> lastError));
 
         if (sqLiteMaper -> CheckDatabase())
         {
@@ -54,8 +55,17 @@ MainWindow::MainWindow(QWidget *parent) :
     // konfiguracja nie istnieje
     else
     {
+        QWizard wizard;
+        Ui::FirstStartWizard wizardFirstStart;
+        wizardFirstStart.setupUi(&wizard);
+
+        if (wizard.exec() == QWizard::Accepted)
+        {
+
+        }
+
         //stwórz domyœln¹ konfiguracjê
-        QMessageBox::warning(this, "Ostrze¿enie", "B³¹d otwierania pliku konfiguracyjnego");
+        //QMessageBox::warning(this, "Ostrze¿enie", "B³¹d otwierania pliku konfiguracyjnego");
         map<string, string> defaultDeictionary;
         defaultDeictionary["DbName"] = "comics.db";
         config -> SetDefaultConfig(defaultDeictionary);

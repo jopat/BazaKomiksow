@@ -10,7 +10,7 @@ using namespace std;
  *  @brief ConfigFileManager klasa obs³uguj¹ca pliki konfiguracyjne.
  *
  * Klasa ConfigFileManager s³u¿y do zarz¹dzania plikami konfiguracyjnymi
- * oraz do wykorzystania informacji w nich zawartych.
+ * tj. zapisaniem, odczytaniem, edycj¹ pojedyñczych wartoœci.
  */
 
 /** @brief Config files reading class.
@@ -21,6 +21,9 @@ class ConfigManager
 {
 public:
 
+    /** @typedef iterator
+    * Iterator dla mapy typu map<string, string>
+    */
     typedef map<string, string>::iterator iterator;
 
     /** @brief Mapa do przechowywaniawartoœci zaczytanych z pliku konfiguracyjnego.
@@ -30,32 +33,25 @@ public:
     */
     map<string, string> configDictionary;
 
+    /** @enum FileStatus
+     * Enum ze statusami wykonania metod z klasy.
+     */
     enum FileStatus
     {
-        FILE_OK = 0,
-        FILE_ER = 1
+        ACTION_OK = 0,    /*!< Metoda zaosta³a wykonana poprawnie. */
+        ACTION_ER = 1     /*!< Metoda zosta³a wykonana z b³êdem. */
     };
 
-    /** @brief A brief description of myProcedure().
+    /** @brief Konstruktor tworzy manager konfiguracji dla danego pliku.
      *
      * A more extensive description of myProcedure().
-     * @param aParameter A brief description of aParameter.
-     * @return A brief description of what myProcedure() returns.
+     * @param configFileName A brief description of aParameter.
      */
     ConfigManager(const string& configFileName);
 
     /** @brief A brief description of myProcedure().
      *
      * A more extensive description of myProcedure().
-     * @param aParameter A brief description of aParameter.
-     * @return A brief description of what myProcedure() returns.
-     */
-    string Trim(const string& s);
-
-    /** @brief A brief description of myProcedure().
-     *
-     * A more extensive description of myProcedure().
-     * @param aParameter A brief description of aParameter.
      * @return A brief description of what myProcedure() returns.
      */
     int ReadConfigFile();

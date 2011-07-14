@@ -4,7 +4,6 @@
 #include <sstream>
 #include <string>
 #include <stdio.h>
-#include "boost\date_time\gregorian\gregorian.hpp"
 
 inline std::string NowTime();
 
@@ -19,6 +18,7 @@ enum TLogLevel
     logDEBUG3,
     logDEBUG4
 };
+
 
 /** @brief Klasa implementuje mechanizm logowania.
  *
@@ -123,7 +123,7 @@ inline FILE*& Output2FILE::Stream()
 inline void Output2FILE::Output(const std::string& msg)
 {
     //FILE* pStream = Stream();
-    FILE* pStream = fopen ("myfile.txt" , "w");
+    FILE* pStream = fopen ("log.txt" , "a");
     if (!pStream)
         return;
     fprintf(pStream, "%s", msg.c_str());
@@ -142,6 +142,11 @@ inline void Output2FILE::Output(const std::string& msg)
 #   define FILELOG_DECLSPEC
 #endif // _WIN32
 
+
+/** @brief Implementacja klasy Log z przekierowaniem strumienia do pliku.
+ *
+ * Klasa pozwala dokonywaæ logowañ do wskazanego pliku.
+ */
 class FILELOG_DECLSPEC FILELog : public Log<Output2FILE> {};
 //typedef Log<Output2FILE> FILELog;
 

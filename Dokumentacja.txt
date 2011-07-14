@@ -34,4 +34,6 @@ When you're done:
   Continue
 
 
-Plan dzia³ania
+Plan dzia³ania:
+FILELog::ReportingLevel() = FILELog::FromString("DEBUG1");
+FILE_LOG(logDEBUG) << "START";
